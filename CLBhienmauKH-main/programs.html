@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="vi" class="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chương trình Hiến máu</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  <script src="assets/tailwind-config.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/theme.css" />
+</head>
+<body class="bg-surface text-on-surface" data-page="programs">
+  <header class="sticky top-0 z-40 bg-white/80 glass-header border-b border-outline-variant/20">
+    <nav class="max-w-screen-2xl mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-primary">bloodtype</span>
+        <span class="font-headline font-extrabold tracking-tight text-xl">CLB Hiến Máu Khoa Học</span>
+      </div>
+      <div class="flex items-center justify-center gap-4 md:gap-7 font-medium w-full md:w-auto mt-1 md:mt-0">
+        <a href="index.html" class="hover:text-primary">Trang chủ</a>
+        <a href="programs.html" class="text-primary font-bold">Chương trình</a>
+        <a href="lookup.html" class="hover:text-primary">Tra cứu</a>
+      </div>
+      <div class="flex gap-3">
+        <a href="login.html" class="px-5 py-2 rounded-xl bg-surface-container-low hover:bg-surface-container">Đăng nhập</a>
+        <a href="register.html" class="signature-gradient text-white px-5 py-2 rounded-xl font-semibold">Đăng ký ngay</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="max-w-screen-2xl mx-auto px-6 py-12">
+    <section class="lookup-hero zone-card p-7 md:p-10 overflow-hidden fade-up relative">
+      <span class="sticker sticker-md sticker-top-right"><span class="material-symbols-outlined">bloodtype</span></span>
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div>
+        <h1 class="font-headline text-5xl font-extrabold">Chương trình <span class="text-primary italic">Hiến máu</span></h1>
+        <p class="text-on-surface-variant mt-3">Danh sách chương trình được cập nhật theo thời gian thực; chương trình đã kết thúc sẽ tự động khóa đăng ký.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="flex gap-3 my-8 max-w-xl zone-card p-4 fade-up delay-1">
+      <input id="programSearch" type="text" class="flex-1 rounded-xl bg-surface-container-low border-none" placeholder="Tìm theo tên chương trình hoặc địa điểm" />
+      <button class="signature-gradient text-white px-6 rounded-xl font-semibold">Tìm kiếm</button>
+    </div>
+
+    <section id="programsList" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 fade-up delay-2"></section>
+  </main>
+  <script src="assets/app.js"></script>
+</body>
+</html>
+
+
+
+
+

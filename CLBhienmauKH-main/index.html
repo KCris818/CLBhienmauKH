@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="vi" class="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CLB Hiến Máu Khoa Học</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  <script src="assets/tailwind-config.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/theme.css" />
+</head>
+<body class="bg-surface text-on-surface" data-page="home">
+  <header class="sticky top-0 z-40 bg-white/80 glass-header border-b border-outline-variant/20">
+    <nav class="max-w-screen-2xl mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-primary">bloodtype</span>
+        <span class="font-headline font-extrabold tracking-tight text-xl">CLB Hiến Máu Khoa Học</span>
+      </div>
+      <div class="flex items-center justify-center gap-4 md:gap-7 font-medium w-full md:w-auto mt-1 md:mt-0">
+        <a href="index.html" class="text-primary font-bold">Trang chủ</a>
+        <a href="programs.html" class="hover:text-primary">Chương trình</a>
+        <a href="lookup.html" class="hover:text-primary">Tra cứu</a>
+      </div>
+      <div class="flex gap-3">
+        <a href="login.html" class="px-5 py-2 rounded-xl bg-surface-container-low hover:bg-surface-container">Đăng nhập</a>
+        <a href="register.html" class="signature-gradient px-5 py-2 rounded-xl text-white font-semibold">Đăng ký hiến máu</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="max-w-screen-2xl mx-auto px-6 py-16 grid lg:grid-cols-2 gap-12 items-center zone-card overflow-hidden fade-up">
+      <span class="sticker sticker-md sticker-top-right"><span class="material-symbols-outlined">favorite</span></span>
+      <span class="sticker sticker-sm sticker-bottom-right"><span class="material-symbols-outlined">local_fire_department</span></span>
+      <div class="relative z-10 p-3 md:p-8">
+        <p class="uppercase text-xs tracking-[0.2em] text-primary font-bold mb-3">CLB Hiến Máu Khoa Học</p>
+        <h1 class="font-headline text-5xl md:text-7xl font-extrabold leading-tight tracking-tight">Hiến giọt máu đào, <span class="text-primary italic">trao đời sự sống</span></h1>
+        <p class="text-secondary mt-6 text-lg max-w-xl">Hệ thống quản lý CLB hiến máu giúp sinh viên đăng ký nhanh, giúp quản trị viên tổ chức sự kiện hiệu quả và thông báo kịp thời.</p>
+        <div class="mt-8 flex flex-wrap gap-4">
+          <a href="register.html" class="signature-gradient text-white px-8 py-4 rounded-xl font-bold">Đăng ký hiến máu</a>
+          <a href="programs.html" class="px-8 py-4 rounded-xl bg-surface-container-low font-bold">Xem chương trình</a>
+        </div>
+      </div>
+      <div class="relative z-10 bg-surface-container-lowest editorial-shadow rounded-[2rem] p-8 m-3 md:m-8 fade-up delay-1">
+        <h2 class="font-headline text-2xl font-bold mb-6">Thống kê nhanh</h2>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="p-5 rounded-2xl bg-surface-container-low">
+            <p class="text-sm text-on-surface-variant">Thành viên</p>
+            <p id="homeMembersCount" class="text-3xl font-headline font-extrabold">0</p>
+          </div>
+          <div class="p-5 rounded-2xl bg-surface-container-low">
+            <p class="text-sm text-on-surface-variant">Chương trình</p>
+            <p id="homeProgramsCount" class="text-3xl font-headline font-extrabold">0</p>
+          </div>
+          <div class="p-5 rounded-2xl bg-surface-container-low">
+            <p class="text-sm text-on-surface-variant">Chờ duyệt</p>
+            <p id="homePendingCount" class="text-3xl font-headline font-extrabold text-error">0</p>
+          </div>
+          <div class="p-5 rounded-2xl bg-primary text-white">
+            <p class="text-sm text-white/80">Máu thu được</p>
+            <p class="text-3xl font-headline font-extrabold">840 dv</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-16">
+      <div class="max-w-screen-2xl mx-auto px-6 zone-card home-upcoming-shell p-8 md:p-10 fade-up delay-2 overflow-hidden">
+        <span class="sticker sticker-sm sticker-top-left"><span class="material-symbols-outlined">star</span></span>
+        <div class="flex justify-between items-start mb-8 gap-4">
+          <h2 class="font-headline text-4xl md:text-5xl font-extrabold home-upcoming-title">Chương trình sắp tới</h2>
+          <div class="flex flex-col items-end gap-3">
+            <a href="programs.html" class="text-primary font-bold">Xem tất cả</a>
+            <div class="flex items-center gap-2">
+              <button id="homeProgramsPrev" class="home-next-btn" aria-label="Xem chương trình trước">
+                <span class="material-symbols-outlined">arrow_back</span>
+              </button>
+              <button id="homeProgramsNext" class="home-next-btn" aria-label="Xem thêm chương trình">
+                <span class="material-symbols-outlined">arrow_forward</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div id="homeProgramsCarousel" class="home-carousel-viewport">
+          <div id="homeProgramsTrack" class="home-carousel-track"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="py-10 px-6 border-t border-outline-variant/20 text-sm text-on-surface-variant">
+    <div class="max-w-screen-2xl mx-auto flex flex-col md:flex-row gap-3 justify-between">
+      <p>© 2026 CLB Hiến Máu Khoa Học - Đại học Khoa học.</p>
+      <div class="flex gap-5">
+        <a href="#" class="hover:text-primary">Chính sách bảo mật</a>
+        <a href="#" class="hover:text-primary">Điều khoản</a>
+      </div>
+    </div>
+  </footer>
+  <script src="assets/app.js"></script>
+</body>
+</html>
+
+
+
+
+
+

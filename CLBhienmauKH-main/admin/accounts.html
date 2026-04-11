@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin - Tài khoản Member</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  <script src="../assets/tailwind-config.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/theme.css" />
+</head>
+<body class="bg-surface text-on-surface" data-page="admin-accounts">
+  <div class="admin-layout">
+    <div id="adminSidebar"></div>
+
+    <main class="p-8 md:p-10 space-y-6">
+      <section class="lookup-hero zone-card rounded-[2rem] p-7 md:p-10 fade-up relative overflow-hidden">
+        <span class="sticker sticker-sm sticker-top-right"><span class="material-symbols-outlined">manage_accounts</span></span>
+        <h2 class="font-headline text-4xl font-extrabold">Quản lý tài khoản thành viên</h2>
+        <p class="text-on-surface-variant mt-3">Khởi tạo tài khoản, cấp lại mật khẩu và kiểm soát truy cập cho thành viên.</p>
+      </section>
+
+      <form id="accountForm" class="zone-card bg-white rounded-2xl p-6 editorial-shadow fade-up delay-1 relative overflow-hidden">
+        <span class="sticker sticker-sm sticker-top-left"><span class="material-symbols-outlined">person_add</span></span>
+        <h3 class="font-headline text-2xl font-bold">Tạo tài khoản mới</h3>
+        <div class="grid md:grid-cols-3 gap-3 mt-4">
+          <input name="email" class="rounded-xl bg-surface-container-low border-none" placeholder="Email" />
+          <input name="password" class="rounded-xl bg-surface-container-low border-none" placeholder="Mật khẩu" />
+          <button class="signature-gradient text-white rounded-xl font-bold">Tạo tài khoản</button>
+        </div>
+      </form>
+      <section class="zone-card bg-white rounded-2xl p-6 editorial-shadow fade-up delay-2 relative overflow-hidden">
+        <span class="sticker sticker-sm sticker-bottom-right"><span class="material-symbols-outlined">lock_reset</span></span>
+        <h3 class="font-headline text-2xl font-bold mb-3">Danh sách tài khoản thành viên</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead><tr class="text-left text-on-surface-variant border-b border-outline-variant/30"><th class="py-3">Email</th><th class="py-3">Vai trò</th><th class="py-3">Cấp lại mật khẩu</th></tr></thead>
+            <tbody id="accountsBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="../assets/app.js"></script>
+</body>
+</html>
+
+
+
+
+

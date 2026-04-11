@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin - Tổng quan</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  <script src="../assets/tailwind-config.js"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/theme.css" />
+</head>
+
+<body class="bg-surface text-on-surface" data-page="admin-dashboard">
+  <div class="admin-layout">
+    <div id="adminSidebar"></div>
+    <main class="p-8 md:p-10">
+      <section class="lookup-hero zone-card rounded-[2rem] p-7 md:p-10 fade-up relative overflow-hidden">
+        <span class="sticker sticker-sm sticker-top-right"><span
+            class="material-symbols-outlined">insights</span></span>
+        <h2 class="font-headline text-4xl font-extrabold">Bảng quản trị hệ thống</h2>
+        <p class="text-on-surface-variant mt-3">Theo dõi nhanh toàn bộ dữ liệu CLB và hoạt động hiến máu trên hệ thống.
+        </p>
+      </section>
+
+      <div class="grid md:grid-cols-4 gap-4 mt-8 fade-up delay-1">
+        <div class="zone-card bg-white rounded-2xl p-5 editorial-shadow">
+          <p class="text-sm text-on-surface-variant">Tổng thành viên</p>
+          <p id="kpiMembers" class="text-3xl font-headline font-extrabold">0</p>
+        </div>
+        <div class="zone-card bg-white rounded-2xl p-5 editorial-shadow">
+          <p class="text-sm text-on-surface-variant">Tổng chương trình</p>
+          <p id="kpiPrograms" class="text-3xl font-headline font-extrabold">0</p>
+        </div>
+        <div class="zone-card bg-white rounded-2xl p-5 editorial-shadow">
+          <p class="text-sm text-on-surface-variant">Chờ duyệt</p>
+          <p id="kpiPending" class="text-3xl font-headline font-extrabold text-error">0</p>
+        </div>
+        <div class="zone-card bg-primary text-white rounded-2xl p-5 editorial-shadow">
+          <p class="text-sm text-white/80">Tham gia thực tế</p>
+          <p id="kpiParticipated" class="text-3xl font-headline font-extrabold">0</p>
+        </div>
+      </div>
+
+      <div
+        class="mt-8 zone-card bg-white rounded-2xl p-6 editorial-shadow text-on-surface-variant fade-up delay-2 relative overflow-hidden">
+        <span class="sticker sticker-sm sticker-bottom-right"><span class="material-symbols-outlined">hub</span></span>
+        Hệ thống đã được kết nối dữ liệu xuyên suốt: User đăng ký -> Admin duyệt -> Member/User tra cứu lịch sử.
+      </div>
+    </main>
+  </div>
+  <script src="../assets/app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Member - Lịch sử hiến máu</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  <script src="../assets/tailwind-config.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/theme.css" />
+</head>
+<body class="bg-surface text-on-surface" data-page="member-history">
+  <div class="member-layout">
+    <div id="memberSidebar"></div>
+
+    <main class="p-8 md:p-10">
+      <section class="lookup-hero zone-card rounded-[2rem] p-7 md:p-10 fade-up relative overflow-hidden">
+        <span class="sticker sticker-sm sticker-top-right"><span class="material-symbols-outlined">workspace_premium</span></span>
+        <div class="inline-flex items-center gap-2 text-sm text-on-surface-variant">
+          <span class="material-symbols-outlined text-base">history</span>
+          <span>Khu vực thành viên</span>
+        </div>
+        <h2 class="font-headline text-4xl md:text-5xl font-extrabold mt-4">Lịch sử hiến máu của tôi</h2>
+        <p class="text-on-surface-variant mt-3 max-w-3xl">Nhập CCCD hoặc SĐT của bạn để tra cứu toàn bộ quá trình đăng ký, trạng thái duyệt và dữ liệu tham gia hiến máu.</p>
+      </section>
+
+      <section class="mt-6 lookup-panel zone-card bg-white rounded-[2rem] p-6 md:p-8 editorial-shadow fade-up delay-1 relative overflow-hidden">
+        <span class="sticker sticker-sm sticker-bottom-right"><span class="material-symbols-outlined">favorite</span></span>
+        <form id="memberHistorySearchForm" class="lookup-search grid md:grid-cols-[1fr_auto] gap-3">
+          <input id="memberHistorySearchKey" class="rounded-xl bg-surface-container-low border-none" placeholder="Nhập CCCD hoặc SĐT của bạn" />
+          <button class="signature-gradient text-white px-6 py-3 rounded-xl font-bold">Tra cứu</button>
+        </form>
+
+        <div class="lookup-kpis grid md:grid-cols-3 gap-4 mt-6">
+          <article class="lookup-kpi">
+            <p class="lookup-kpi-label">Tổng lượt hiến</p>
+            <p id="memberHistoryTotal" class="lookup-kpi-value">0</p>
+          </article>
+          <article class="lookup-kpi">
+            <p class="lookup-kpi-label">Lần hiến gần nhất</p>
+            <p id="memberHistoryLatest" class="lookup-kpi-value text-2xl">-</p>
+          </article>
+          <article class="lookup-kpi">
+            <p class="lookup-kpi-label">Trạng thái gần nhất</p>
+            <p id="memberHistoryStatus" class="lookup-kpi-value text-2xl">-</p>
+          </article>
+        </div>
+
+        <div class="mt-6 flex items-center justify-between gap-3">
+          <h3 class="font-headline text-2xl font-bold">Kết quả tra cứu</h3>
+          <p id="memberHistoryHint" class="text-sm text-on-surface-variant">Nhập CCCD hoặc SĐT để bắt đầu.</p>
+        </div>
+
+        <div class="mt-4 lookup-table-wrap overflow-x-auto hidden md:block">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="text-left text-on-surface-variant border-b border-outline-variant/30">
+                <th class="py-3">Lần đăng ký</th>
+                <th class="py-3">Chương trình</th>
+                <th class="py-3">Trạng thái duyệt</th>
+                <th class="py-3">Tham gia thực tế</th>
+                <th class="py-3">Ngày hiến</th>
+              </tr>
+            </thead>
+            <tbody id="memberHistoryBody"></tbody>
+          </table>
+        </div>
+
+        <div id="memberHistoryCards" class="mt-4 grid gap-3 md:hidden"></div>
+      </section>
+    </main>
+  </div>
+  <script src="../assets/app.js"></script>
+</body>
+</html>

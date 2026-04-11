@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin - Duyệt đăng ký</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  <script src="../assets/tailwind-config.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/theme.css" />
+</head>
+<body class="bg-surface text-on-surface" data-page="admin-registrations">
+  <div class="admin-layout">
+    <div id="adminSidebar"></div>
+
+    <main class="p-8 md:p-10">
+      <section class="lookup-hero zone-card rounded-[2rem] p-7 md:p-10 fade-up relative overflow-hidden">
+        <span class="sticker sticker-sm sticker-top-right"><span class="material-symbols-outlined">fact_check</span></span>
+        <h2 class="font-headline text-4xl font-extrabold">Duyệt đăng ký hiến máu</h2>
+        <p class="text-on-surface-variant mt-2">Quản lý trạng thái: Chờ duyệt, Đã duyệt, Từ chối.</p>
+      </section>
+
+      <section class="mt-6 grid md:grid-cols-4 gap-4 fade-up delay-1">
+        <article class="zone-card bg-white rounded-2xl p-5 editorial-shadow"><p class="text-xs uppercase tracking-widest text-on-surface-variant">Tổng đăng ký</p><p id="statTotalRegs" class="text-3xl font-headline font-extrabold mt-2">0</p></article>
+        <article class="zone-card bg-white rounded-2xl p-5 editorial-shadow"><p class="text-xs uppercase tracking-widest text-on-surface-variant">Tham gia thực tế</p><p id="statActualPeople" class="text-3xl font-headline font-extrabold mt-2">0</p></article>
+        <article class="zone-card bg-white rounded-2xl p-5 editorial-shadow"><p class="text-xs uppercase tracking-widest text-on-surface-variant">Tỷ lệ duyệt</p><p id="statApproveRate" class="text-3xl font-headline font-extrabold mt-2">0%</p></article>
+        <article class="zone-card bg-white rounded-2xl p-5 editorial-shadow"><p class="text-xs uppercase tracking-widest text-on-surface-variant">Tỷ lệ từ chối</p><p id="statRejectRate" class="text-3xl font-headline font-extrabold mt-2">0%</p></article>
+      </section>
+
+      <section class="mt-6 overflow-x-auto zone-card bg-white rounded-2xl editorial-shadow p-4 fade-up delay-2 relative overflow-hidden">
+        <span class="sticker sticker-sm sticker-top-left"><span class="material-symbols-outlined">query_stats</span></span>
+        <h3 class="font-headline text-2xl font-bold mb-3">Thống kê theo chương trình</h3>
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="text-left text-on-surface-variant border-b border-outline-variant/30">
+              <th class="py-2">Chương trình</th><th class="py-2">Số đăng ký</th><th class="py-2">Tham gia thực tế</th><th class="py-2">Tỷ lệ duyệt / từ chối</th>
+            </tr>
+          </thead>
+          <tbody id="statsByProgramBody"></tbody>
+        </table>
+      </section>
+
+      <div class="mt-6 overflow-x-auto zone-card bg-white rounded-2xl editorial-shadow p-4 fade-up delay-2 relative overflow-hidden">
+        <span class="sticker sticker-sm sticker-bottom-right"><span class="material-symbols-outlined">checklist</span></span>
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="text-left text-on-surface-variant border-b border-outline-variant/30">
+              <th class="py-3">Người đăng ký</th><th class="py-3">MSSV</th><th class="py-3">Chương trình</th><th class="py-3">Nhóm máu</th><th class="py-3">Trạng thái</th><th class="py-3">Thao tác</th>
+            </tr>
+          </thead>
+          <tbody id="registrationsBody"></tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+  <script src="../assets/app.js"></script>
+</body>
+</html>
+
+
+
+
+

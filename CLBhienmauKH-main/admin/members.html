@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin - Thành viên</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  <script src="../assets/tailwind-config.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/theme.css" />
+</head>
+<body class="bg-surface text-on-surface" data-page="admin-members">
+  <div class="admin-layout">
+    <div id="adminSidebar"></div>
+    <main class="p-8 md:p-10">
+      <section class="lookup-hero zone-card rounded-[2rem] p-7 md:p-10 fade-up relative overflow-hidden">
+        <span class="sticker sticker-sm sticker-top-right"><span class="material-symbols-outlined">groups</span></span>
+        <h2 class="font-headline text-4xl font-extrabold">Quản lý thành viên</h2>
+        <p class="text-on-surface-variant mt-3">Thêm, cập nhật và quản lý hồ sơ thành viên CLB theo thời gian thực.</p>
+      </section>
+
+      <form id="memberForm" class="mt-6 zone-card bg-white rounded-2xl p-6 editorial-shadow grid md:grid-cols-3 gap-3 fade-up delay-1 relative overflow-hidden">
+        <span class="sticker sticker-sm sticker-top-left"><span class="material-symbols-outlined">person_add</span></span>
+        <input type="hidden" name="editId" id="memberEditId" />
+        <input name="fullName" class="rounded-xl bg-surface-container-low border-none" placeholder="Họ và tên" />
+        <input name="studentCode" class="rounded-xl bg-surface-container-low border-none" placeholder="MSSV" />
+        <input name="email" class="rounded-xl bg-surface-container-low border-none" placeholder="Email" />
+        <input name="phone" class="rounded-xl bg-surface-container-low border-none" placeholder="Số điện thoại" />
+        <input name="cccd" class="rounded-xl bg-surface-container-low border-none" placeholder="CCCD" />
+        <input name="bloodGroup" class="rounded-xl bg-surface-container-low border-none" placeholder="Nhóm máu" />
+        <div class="md:col-span-3 flex gap-3">
+          <button id="memberSubmitBtn" class="signature-gradient text-white px-5 py-3 rounded-xl font-bold">Thêm thành viên</button>
+          <button id="memberCancelEditBtn" type="button" class="px-5 py-3 rounded-xl bg-surface-container-low font-bold hidden">Hủy sửa</button>
+        </div>
+      </form>
+
+      <div class="mt-6 zone-card bg-white rounded-2xl p-4 editorial-shadow overflow-x-auto fade-up delay-2 relative overflow-hidden">
+        <span class="sticker sticker-sm sticker-bottom-right"><span class="material-symbols-outlined">id_card</span></span>
+        <table class="w-full text-sm">
+          <thead><tr class="text-left text-on-surface-variant border-b border-outline-variant/30"><th class="py-3">Họ tên</th><th class="py-3">MSSV</th><th class="py-3">Email</th><th class="py-3">SĐT</th><th class="py-3">Nhóm máu</th><th class="py-3">Thao tác</th></tr></thead>
+          <tbody id="membersBody"></tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+  <script src="../assets/app.js"></script>
+</body>
+</html>
+
+
+
+
+

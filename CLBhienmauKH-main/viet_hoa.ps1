@@ -1,0 +1,78 @@
+$ErrorActionPreference = 'Stop'
+$files = Get-ChildItem -Path "d:\quanlyhienmau\web" -Recurse -File | Where-Object { $_.Extension -in '.html', '.js', '.md' }
+
+$map = [ordered]@{
+  'CLB Hien Mau Khoa Hoc' = 'CLB Hiến Máu Khoa Học'
+  'Science Blood Club' = 'CLB Hiến Máu Khoa Học'
+  'Chuong trinh Hien mau' = 'Chương trình Hiến máu'
+  'Dang nhap he thong' = 'Đăng nhập hệ thống'
+  'Tra cuu lich su hien mau' = 'Tra cứu lịch sử hiến máu'
+  'Dang ky hien mau' = 'Đăng ký hiến máu'
+  'Dang ky ngay' = 'Đăng ký ngay'
+  'Dang nhap' = 'Đăng nhập'
+  'Dang ky' = 'Đăng ký'
+  'Quan ly' = 'Quản lý'
+  'Tong quan' = 'Tổng quan'
+  'Thong bao' = 'Thông báo'
+  'Thanh vien' = 'Thành viên'
+  'Tai khoan' = 'Tài khoản'
+  'Lich su' = 'Lịch sử'
+  'Tra cuu' = 'Tra cứu'
+  'Trang chu' = 'Trang chủ'
+  'Chuong trinh' = 'Chương trình'
+  'Thoi gian' = 'Thời gian'
+  'Dia diem' = 'Địa điểm'
+  'So luong' = 'Số lượng'
+  'Tim kiem' = 'Tìm kiếm'
+  'Xem tat ca' = 'Xem tất cả'
+  'Xem them' = 'Xem thêm'
+  'Cho duyet' = 'Chờ duyệt'
+  'Da duyet' = 'Đã duyệt'
+  'Tu choi' = 'Từ chối'
+  'Da ket thuc' = 'Đã kết thúc'
+  'Dang dien ra' = 'Đang diễn ra'
+  'Sap toi' = 'Sắp tới'
+  'Cap nhat' = 'Cập nhật'
+  'Xoa' = 'Xóa'
+  'Them' = 'Thêm'
+  'Sua' = 'Sửa'
+  'Huy sua' = 'Hủy sửa'
+  'Gui' = 'Gửi'
+  'Mat khau' = 'Mật khẩu'
+  'Ho va ten' = 'Họ và tên'
+  'Ma sinh vien' = 'Mã sinh viên'
+  'So dien thoai' = 'Số điện thoại'
+  'Nhom mau' = 'Nhóm máu'
+  'Chua biet' = 'Chưa biết'
+  'Ngay hien' = 'Ngày hiến'
+  'Tham gia thuc te' = 'Tham gia thực tế'
+  'Khong co' = 'Không có'
+  'Khong tim thay' = 'Không tìm thấy'
+  'Vui long' = 'Vui lòng'
+  'He thong' = 'Hệ thống'
+  'thoi gian thuc' = 'thời gian thực'
+  'khoa dang ky' = 'khóa đăng ký'
+  'Chinh sach bao mat' = 'Chính sách bảo mật'
+  'Dieu khoan' = 'Điều khoản'
+  'Dang xuat' = 'Đăng xuất'
+  'Ca nhan' = 'Cá nhân'
+  'Hanh dong nhanh' = 'Hành động nhanh'
+  'Thong ke nhanh' = 'Thống kê nhanh'
+  'Tong thanh vien' = 'Tổng thành viên'
+  'Tong chuong trinh' = 'Tổng chương trình'
+  'Mau thu duoc' = 'Máu thu được'
+  'Don cho duyet' = 'Đơn chờ duyệt'
+  'Cong thong tin thanh vien' = 'Cổng thông tin thành viên'
+  'hien mau' = 'hiến máu'
+  'sinh vien' = 'sinh viên'
+}
+
+foreach ($f in $files) {
+  $content = Get-Content -Path $f.FullName -Raw -Encoding UTF8
+  foreach ($k in $map.Keys) {
+    $content = $content.Replace($k, $map[$k])
+  }
+  Set-Content -Path $f.FullName -Value $content -Encoding UTF8
+}
+
+Write-Output "Viet hoa hoan tat"

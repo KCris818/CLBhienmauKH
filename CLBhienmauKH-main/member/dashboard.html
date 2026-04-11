@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Member Dashboard</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  <script src="../assets/tailwind-config.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/theme.css" />
+</head>
+<body class="bg-surface text-on-surface" data-page="member-dashboard">
+  <div class="member-layout">
+    <div id="memberSidebar"></div>
+
+    <main class="p-8 md:p-10">
+      <section class="lookup-hero zone-card rounded-[2rem] p-7 md:p-10 fade-up relative overflow-hidden">
+        <span class="sticker sticker-sm sticker-top-right"><span class="material-symbols-outlined">favorite</span></span>
+        <h2 class="font-headline text-4xl font-extrabold">Chào mừng trở lại, <span id="memberName">Thành viên</span></h2>
+        <p class="text-on-surface-variant mt-3">Theo dõi nhanh hoạt động cá nhân và các sự kiện CLB ngay tại đây.</p>
+      </section>
+
+      <div class="grid md:grid-cols-3 gap-4 mt-8 fade-up delay-1">
+        <div class="zone-card bg-white rounded-2xl p-6 editorial-shadow"><p class="text-xs uppercase tracking-widest text-on-surface-variant">Tổng lượt hiến</p><p id="memberTotalDonations" class="text-5xl font-headline font-extrabold mt-2">0</p></div>
+        <div class="zone-card bg-white rounded-2xl p-6 editorial-shadow"><p class="text-xs uppercase tracking-widest text-on-surface-variant">Đơn chờ duyệt</p><p id="memberPending" class="text-5xl font-headline font-extrabold mt-2">0</p></div>
+        <div class="zone-card bg-primary text-white rounded-2xl p-6 editorial-shadow"><p class="text-xs uppercase tracking-widest text-white/80">Nhóm máu</p><p id="memberBlood" class="text-3xl font-headline font-extrabold mt-2">-</p></div>
+      </div>
+
+      <div class="mt-8 zone-card bg-white rounded-2xl p-6 editorial-shadow fade-up delay-2 relative overflow-hidden">
+        <span class="sticker sticker-sm sticker-top-left"><span class="material-symbols-outlined">bolt</span></span>
+        <h3 class="font-headline text-2xl font-bold">Hành động nhanh</h3>
+        <div class="mt-4 flex flex-wrap gap-3">
+          <a href="../register.html" class="signature-gradient text-white px-5 py-3 rounded-xl font-semibold">Đăng ký hiến máu</a>
+          <a href="history.html" class="px-5 py-3 rounded-xl bg-surface-container-low font-semibold">Xem lịch sử</a>
+          <a href="notifications.html" class="px-5 py-3 rounded-xl bg-surface-container-low font-semibold">Xem thông báo (<span id="memberNoti">0</span>)</a>
+        </div>
+      </div>
+
+      <div class="mt-8 zone-card bg-white rounded-2xl p-6 editorial-shadow fade-up delay-2 relative overflow-hidden">
+        <span class="sticker sticker-sm sticker-bottom-right"><span class="material-symbols-outlined">water_drop</span></span>
+        <div class="flex items-center justify-between gap-4">
+          <h3 class="font-headline text-2xl font-bold">Theo dõi hoạt động CLB</h3>
+          <div class="flex items-center gap-2">
+            <button id="memberActivitiesPrev" type="button" class="home-next-btn" aria-label="Xem hoạt động trước">
+              <span class="material-symbols-outlined">arrow_back</span>
+            </button>
+            <button id="memberActivitiesNext" type="button" class="home-next-btn" aria-label="Xem hoạt động tiếp theo">
+              <span class="material-symbols-outlined">arrow_forward</span>
+            </button>
+          </div>
+        </div>
+        <div id="memberActivitiesViewport" class="mt-4 home-carousel-viewport">
+          <div id="memberActivities" class="home-carousel-track"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="../assets/app.js"></script>
+</body>
+</html>
+
+
+
+
+

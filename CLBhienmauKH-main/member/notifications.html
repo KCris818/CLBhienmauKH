@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Member - Thông báo</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  <script src="../assets/tailwind-config.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/theme.css" />
+</head>
+<body class="bg-surface text-on-surface" data-page="member-notifications">
+  <div class="member-layout">
+    <div id="memberSidebar"></div>
+
+    <main class="p-8 md:p-10">
+      <section class="lookup-hero zone-card rounded-[2rem] p-7 md:p-10 fade-up relative overflow-hidden">
+        <span class="sticker sticker-sm sticker-top-right"><span class="material-symbols-outlined">notifications</span></span>
+        <h2 class="font-headline text-4xl font-extrabold">THÔNG BÁO</h2>
+        <p class="text-on-surface-variant mt-3">Theo dõi các thông tin mới nhất từ CLB, lịch sự kiện và hướng dẫn tham gia hiến máu.</p>
+      </section>
+
+      <div class="noti-shell mt-8 zone-card p-4 md:p-5 fade-up delay-1 relative overflow-hidden">
+        <span class="sticker sticker-sm sticker-bottom-right"><span class="material-symbols-outlined">mail</span></span>
+        <section class="noti-list" id="memberNotificationsList"></section>
+        <section class="noti-detail" id="memberNotificationDetail"></section>
+      </div>
+    </main>
+  </div>
+  <script src="../assets/app.js"></script>
+</body>
+</html>
+
+
+
+
+

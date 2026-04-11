@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin - Quản lý chương trình</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  <script src="../assets/tailwind-config.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/theme.css" />
+</head>
+<body class="bg-surface text-on-surface" data-page="admin-programs">
+  <div class="admin-layout">
+    <div id="adminSidebar"></div>
+    <main class="p-8 md:p-10">
+      <section class="lookup-hero zone-card rounded-[2rem] p-7 md:p-10 fade-up relative overflow-hidden">
+        <span class="sticker sticker-sm sticker-top-right"><span class="material-symbols-outlined">event</span></span>
+        <h2 class="font-headline text-4xl font-extrabold">Quản lý chương trình hiến máu</h2>
+        <p class="text-on-surface-variant mt-3">Tạo và điều phối chương trình hiến máu theo từng mốc thời gian.</p>
+      </section>
+
+      <form id="programForm" class="mt-6 zone-card bg-white rounded-2xl p-6 editorial-shadow grid md:grid-cols-3 gap-3 fade-up delay-1 relative overflow-hidden">
+        <span class="sticker sticker-sm sticker-top-left"><span class="material-symbols-outlined">calendar_add_on</span></span>
+        <input type="hidden" name="editId" id="programEditId" />
+        <input name="name" class="rounded-xl bg-surface-container-low border-none" placeholder="Tên chương trình" />
+        <input name="date" type="date" class="rounded-xl bg-surface-container-low border-none" />
+        <input name="timeRange" class="rounded-xl bg-surface-container-low border-none" placeholder="09:00-16:00" />
+        <input name="location" class="rounded-xl bg-surface-container-low border-none" placeholder="Địa điểm" />
+        <input name="expectedCount" type="number" class="rounded-xl bg-surface-container-low border-none" placeholder="Số lượng dự kiến" />
+        <input name="description" class="rounded-xl bg-surface-container-low border-none" placeholder="Mô tả" />
+        <div class="md:col-span-3 flex gap-3">
+          <button id="programSubmitBtn" class="signature-gradient text-white px-5 py-3 rounded-xl font-bold">Tạo chương trình</button>
+          <button id="programCancelEditBtn" type="button" class="px-5 py-3 rounded-xl bg-surface-container-low font-bold hidden">Hủy sửa</button>
+        </div>
+      </form>
+
+      <div class="mt-6 zone-card bg-white rounded-2xl p-4 editorial-shadow overflow-x-auto fade-up delay-2 relative overflow-hidden">
+        <span class="sticker sticker-sm sticker-bottom-right"><span class="material-symbols-outlined">view_list</span></span>
+        <table class="w-full text-sm">
+          <thead><tr class="text-left text-on-surface-variant border-b border-outline-variant/30"><th class="py-3">Tên</th><th class="py-3">Ngày</th><th class="py-3">Địa điểm</th><th class="py-3">Số lượng</th><th class="py-3">Thao tác</th></tr></thead>
+          <tbody id="programsBody"></tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+  <script src="../assets/app.js"></script>
+</body>
+</html>
+
+
+
+
+

@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Đăng ký hiến máu</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  <script src="assets/tailwind-config.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/theme.css" />
+</head>
+<body class="bg-surface text-on-surface" data-page="register">
+  <main class="max-w-4xl mx-auto px-6 py-12">
+    <a id="registerBackLink" href="index.html" class="text-sm text-on-surface-variant">← Trang chủ</a>
+    <h1 class="font-headline text-5xl font-extrabold mt-4">Đăng ký hiến máu</h1>
+    <p class="text-on-surface-variant mt-3">Vui lòng điền thông tin chính xác. Đơn đăng ký sẽ ở trạng thái <strong>Chờ duyệt</strong> để Admin xử lý.</p>
+
+    <form id="registerForm" class="mt-8 bg-white rounded-[2rem] p-8 editorial-shadow grid md:grid-cols-2 gap-5">
+      <div>
+        <label class="block text-sm font-semibold mb-1">Họ và tên</label>
+        <input name="fullName" class="w-full rounded-xl bg-surface-container-low border-none" placeholder="Nguyen Van A" />
+      </div>
+      <div>
+        <label class="block text-sm font-semibold mb-1">Mã sinh viên</label>
+        <input name="studentCode" class="w-full rounded-xl bg-surface-container-low border-none" placeholder="2023xxxx" />
+      </div>
+      <div>
+        <label class="block text-sm font-semibold mb-1">Số điện thoại</label>
+        <input name="phone" class="w-full rounded-xl bg-surface-container-low border-none" placeholder="09xxxxxxxx" />
+      </div>
+      <div>
+        <label class="block text-sm font-semibold mb-1">Email</label>
+        <input name="email" type="email" class="w-full rounded-xl bg-surface-container-low border-none" placeholder="you@uhs.edu.vn" />
+      </div>
+      <div>
+        <label class="block text-sm font-semibold mb-1">CCCD</label>
+        <input name="cccd" class="w-full rounded-xl bg-surface-container-low border-none" placeholder="0792xxxxxxxx" />
+      </div>
+      <div>
+        <label class="block text-sm font-semibold mb-1">Nhóm máu (nếu có)</label>
+        <select name="bloodGroup" class="w-full rounded-xl bg-surface-container-low border-none">
+          <option>Chưa biết</option><option>O+</option><option>O-</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option>
+        </select>
+      </div>
+      <div class="md:col-span-2">
+        <label class="block text-sm font-semibold mb-1">Chương trình</label>
+        <select id="registerProgram" name="programId" class="w-full rounded-xl bg-surface-container-low border-none"></select>
+      </div>
+      <div>
+        <label class="block text-sm font-semibold mb-1">Thời gian mong muốn</label>
+        <input name="desiredAt" type="datetime-local" class="w-full rounded-xl bg-surface-container-low border-none" />
+      </div>
+      <div class="md:col-span-2">
+        <label class="block text-sm font-semibold mb-1">Ghi chú sức khỏe</label>
+        <textarea class="w-full rounded-xl bg-surface-container-low border-none" rows="4" placeholder="Thông tin cần lưu ý trước khi hiến máu..."></textarea>
+      </div>
+      <div class="md:col-span-2 flex flex-wrap gap-3">
+        <button type="submit" class="signature-gradient text-white px-8 py-3 rounded-xl font-bold">Gửi đăng ký</button>
+        <a href="lookup.html" class="px-8 py-3 rounded-xl bg-surface-container-low font-bold">Tra cứu lịch sử</a>
+      </div>
+    </form>
+    <p id="registerNotice" class="mt-4 text-sm"></p>
+  </main>
+  <script src="assets/app.js"></script>
+</body>
+</html>
+
+
+
+
+
