@@ -161,7 +161,21 @@ function ensureNotificationSchema() {
 }
 
 function ensureExtraSeedData() {
-  return;
+  const data = db();
+  let changed = false;
+  // Assign banner images cyclically to all programs that don't have one yet
+  const bannerImages = [
+    'assets/program_p_vi_10.webp',
+    'assets/program_banner_2.webp',
+    'assets/program_banner_3.webp',
+  ];
+  data.programs.forEach((p, idx) => {
+    if (!p.image) {
+      p.image = bannerImages[idx % bannerImages.length];
+      changed = true;
+    }
+  });
+  if (changed) save(data);
 }
 
 function auth() {
@@ -267,11 +281,14 @@ function initHome() {
   }
 
   track.innerHTML = upcoming.map(p => `
-    <article class="bg-white rounded-3xl p-6 editorial-shadow home-program-card home-carousel-item">
-      <h3 class="font-headline text-xl font-bold">${p.name}</h3>
-      <p class="text-sm text-on-surface-variant mt-3">Thời gian: ${p.date} (${p.timeRange})</p>
-      <p class="text-sm text-on-surface-variant mt-1">Địa điểm: ${p.location}</p>
-      <a href="programs.html?focusProgramId=${p.id}" data-focus-program-id="${p.id}" class="mt-auto inline-block px-4 py-2 rounded-xl bg-primary text-white font-semibold home-view-btn">Xem thêm</a>
+    <article class="home-program-card home-carousel-item">
+      ${p.image ? `<img src="${p.image}" alt="${p.name}" style="width:100%;height:148px;object-fit:cover;display:block;flex-shrink:0;" />` : ''}
+      <div class="p-6 flex flex-col flex-1">
+        <h3 class="font-headline text-xl font-bold">${p.name}</h3>
+        <p class="text-sm text-on-surface-variant mt-3">Thời gian: ${p.date} (${p.timeRange})</p>
+        <p class="text-sm text-on-surface-variant mt-1">Địa điểm: ${p.location}</p>
+        <a href="programs.html?focusProgramId=${p.id}" data-focus-program-id="${p.id}" class="mt-auto inline-block px-4 py-2 rounded-xl bg-primary text-white font-semibold home-view-btn">Xem thêm</a>
+      </div>
     </article>
   `).join('');
 
@@ -285,8 +302,12 @@ function initHome() {
     location.href = `programs.html?focusProgramId=${encodeURIComponent(focusProgramId)}#program-card-${encodeURIComponent(focusProgramId)}`;
   });
 
-  const visibleCount = 3;
-  const maxIndex = Math.max(0, upcoming.length - visibleCount);
+  const getVisibleCount = () => {
+    if (window.innerWidth <= 768) return 1;
+    if (window.innerWidth <= 1024) return 2;
+    return 3;
+  };
+
   let currentIndex = 0;
 
   const itemStep = () => {
@@ -298,6 +319,7 @@ function initHome() {
   };
 
   const updateButtons = () => {
+    const visibleCount = getVisibleCount();
     if (upcoming.length <= visibleCount) {
       prevBtn?.classList.add('hidden');
       nextBtn?.classList.add('hidden');
@@ -305,12 +327,19 @@ function initHome() {
     }
     prevBtn?.classList.remove('hidden');
     nextBtn?.classList.remove('hidden');
-    if (prevBtn) prevBtn.disabled = currentIndex <= 0;
-    if (nextBtn) nextBtn.disabled = currentIndex >= maxIndex;
+    if (prevBtn) prevBtn.disabled = false;
+    if (nextBtn) nextBtn.disabled = false;
   };
 
   const slideTo = index => {
-    currentIndex = Math.max(0, Math.min(maxIndex, index));
+    const visibleCount = getVisibleCount();
+    const maxIndex = Math.max(0, upcoming.length - visibleCount);
+    
+    let nextIndex = index;
+    if (nextIndex < 0) nextIndex = maxIndex;
+    else if (nextIndex > maxIndex) nextIndex = 0;
+    
+    currentIndex = Math.min(maxIndex, nextIndex);
     track.style.transform = `translateX(-${currentIndex * itemStep()}px)`;
     updateButtons();
   };
@@ -345,18 +374,21 @@ function initPrograms() {
       .filter(p => `${p.name} ${p.location}`.toLowerCase().includes(keyword))
       .sort((a, b) => programTimeline(b).startAt - programTimeline(a).startAt);
     list.innerHTML = filtered.map((p, idx) => `
-      <article id="program-card-${p.id}" class="bg-surface-container-lowest rounded-2xl p-6 editorial-shadow border border-outline-variant/15 program-card stagger-item" style="--stagger:${idx};">
-        <h3 class="font-headline text-2xl font-bold">${p.name}</h3>
-        <p class="text-on-surface-variant mt-2">${p.description || ''}</p>
-        <div class="mt-4 text-sm text-on-surface-variant">
-          <div>Thời gian: ${p.date} (${p.timeRange})</div>
-          <div>Địa điểm: ${p.location}</div>
-          <div>Số lượng dự kiến: ${p.expectedCount}</div>
-          <div>Trạng thái: ${programPhase(p, now) === 'upcoming' ? 'Sắp tới' : (programPhase(p, now) === 'ongoing' ? 'Đang diễn ra' : 'Đã kết thúc')}</div>
+      <article id="program-card-${p.id}" class="bg-surface-container-lowest rounded-2xl editorial-shadow border border-outline-variant/15 program-card stagger-item overflow-hidden" style="--stagger:${idx};">
+        ${p.image ? `<img src="${p.image}" alt="${p.name}" style="width:100%;height:200px;object-fit:cover;display:block;" />` : ''}
+        <div class="p-6">
+          <h3 class="font-headline text-2xl font-bold">${p.name}</h3>
+          <p class="text-on-surface-variant mt-2">${p.description || ''}</p>
+          <div class="mt-4 text-sm text-on-surface-variant">
+            <div>Thời gian: ${p.date} (${p.timeRange})</div>
+            <div>Địa điểm: ${p.location}</div>
+            <div>Số lượng dự kiến: ${p.expectedCount}</div>
+            <div>Trạng thái: ${programPhase(p, now) === 'upcoming' ? 'Sắp tới' : (programPhase(p, now) === 'ongoing' ? 'Đang diễn ra' : 'Đã kết thúc')}</div>
+          </div>
+          ${canRegisterProgram(p, now)
+            ? `<a href="register.html?programId=${p.id}" class="mt-5 inline-block signature-gradient px-5 py-2 rounded-xl text-white font-bold">Đăng ký hiến máu</a>`
+            : `<span class="mt-5 inline-block px-5 py-2 rounded-xl bg-surface-container-low text-on-surface-variant font-bold">Đã kết thúc đăng ký</span>`}
         </div>
-        ${canRegisterProgram(p, now)
-          ? `<a href="register.html?programId=${p.id}" class="mt-5 inline-block signature-gradient px-5 py-2 rounded-xl text-white font-bold">Đăng ký hiến máu</a>`
-          : `<span class="mt-5 inline-block px-5 py-2 rounded-xl bg-surface-container-low text-on-surface-variant font-bold">Đã kết thúc đăng ký</span>`}
       </article>
     `).join('') || '<div class="text-on-surface-variant">Không tìm thấy chương trình.</div>';
 
@@ -883,7 +915,7 @@ function buildAdminSidebar(active) {
           <a class="block px-4 py-3 rounded-xl ${active === 'programs' ? 'bg-white text-primary font-bold' : 'hover:bg-white'}" href="programs.html">Chương trình</a>
           <a class="block px-4 py-3 rounded-xl ${active === 'registrations' ? 'bg-white text-primary font-bold' : 'hover:bg-white'}" href="registrations.html">Đăng ký</a>
           <a class="block px-4 py-3 rounded-xl ${active === 'notifications' ? 'bg-white text-primary font-bold' : 'hover:bg-white'}" href="notifications.html">Thông báo</a>
-          <a class="block px-4 py-3 rounded-xl ${active === 'accounts' ? 'bg-white text-primary font-bold' : 'hover:bg-white'}" href="accounts.html">Tài khoản</a>
+
         </nav>
         <div class="sidebar-actions">
           <button id="adminLogout" class="mt-8 px-4 py-2 rounded-xl bg-white text-sm font-semibold">Đăng xuất</button>
@@ -915,27 +947,50 @@ function initAdminMembers() {
   const cancelBtn = byId('memberCancelEditBtn');
   const editIdInput = byId('memberEditId');
 
+  const VALID_BLOOD_GROUPS = new Set(['A-','B-','O-','AB-','A+','B+','O+','AB+']);
+
   const resetEditor = () => {
     if (editIdInput) editIdInput.value = '';
     if (submitBtn) submitBtn.textContent = 'Thêm thành viên';
     if (cancelBtn) cancelBtn.classList.add('hidden');
     form?.reset();
+    // Clear account email mirror after reset
+    const accEl = byId('memberAccountEmail');
+    if (accEl) accEl.value = '';
+    // Reset password field: no text → default visible (type=text), icon = visibility
+    const pwdEl = byId('memberAccountPassword');
+    const eyeIcon = byId('memberPasswordEyeIcon');
+    if (pwdEl) { pwdEl.value = ''; pwdEl.type = 'text'; }
+    if (eyeIcon) eyeIcon.textContent = 'visibility';
+    // Clear error notices
+    const bgErr = byId('bloodGroupError');
+    if (bgErr) bgErr.classList.add('hidden');
+    const notice = byId('memberFormNotice');
+    if (notice) { notice.textContent = ''; notice.classList.add('hidden'); }
   };
 
   const render = () => {
-    tbody.innerHTML = data.members.map(m => `
+    tbody.innerHTML = data.members.map(m => {
+      const hasAccount = data.users.some(u => u.memberId === m.id);
+      return `
       <tr class="border-b border-outline-variant/20">
         <td class="py-3">${m.fullName}</td>
         <td class="py-3">${m.studentCode}</td>
         <td class="py-3">${m.email}</td>
         <td class="py-3">${m.phone}</td>
         <td class="py-3">${m.bloodGroup || '-'}</td>
+        <td class="py-3">
+          <span class="inline-flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-semibold ${hasAccount ? 'bg-tertiary-fixed text-tertiary' : 'bg-surface-container-low text-on-surface-variant'}">
+            <span class="material-symbols-outlined" style="font-size:0.95rem;">${hasAccount ? 'check_circle' : 'radio_button_unchecked'}</span>
+            ${hasAccount ? 'Có tài khoản' : 'Chưa có'}
+          </span>
+        </td>
         <td class="py-3 flex gap-2">
           <button data-edit-member="${m.id}" class="px-3 py-1 rounded-lg bg-primary/10 text-primary text-xs font-bold">Sửa</button>
           <button data-del-member="${m.id}" class="px-3 py-1 rounded-lg bg-error-container text-error text-xs font-bold">Xóa</button>
         </td>
       </tr>
-    `).join('') || '<tr><td colspan="6" class="py-4 text-on-surface-variant">Chưa có thành viên.</td></tr>';
+    `; }).join('') || '<tr><td colspan="7" class="py-4 text-on-surface-variant">Chưa có thành viên.</td></tr>';
 
     document.querySelectorAll('[data-edit-member]').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -948,9 +1003,23 @@ function initAdminMembers() {
         form.phone.value = member.phone || '';
         form.cccd.value = member.cccd || '';
         form.bloodGroup.value = member.bloodGroup || '';
+        // Sync account email mirror
+        const accEl = byId('memberAccountEmail');
+        if (accEl) accEl.value = member.email || '';
+        // Populate password from linked user account
+        const linkedUser = data.users.find(u => u.memberId === member.id);
+        const pwdEl = byId('memberAccountPassword');
+        const eyeIcon = byId('memberPasswordEyeIcon');
+        if (pwdEl) {
+          pwdEl.value = linkedUser?.password || '';
+          // Has text → show as plain text (visible), icon = visibility_off to indicate can hide
+          pwdEl.type = 'text';
+        }
+        if (eyeIcon) eyeIcon.textContent = linkedUser?.password ? 'visibility_off' : 'visibility';
         if (editIdInput) editIdInput.value = member.id;
         if (submitBtn) submitBtn.textContent = 'Cập nhật thành viên';
         if (cancelBtn) cancelBtn.classList.remove('hidden');
+        form.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
     });
 
@@ -967,17 +1036,71 @@ function initAdminMembers() {
 
   cancelBtn?.addEventListener('click', resetEditor);
 
+  // Password toggle (eye icon)
+  byId('memberPasswordToggle')?.addEventListener('click', () => {
+    const pwdEl = byId('memberAccountPassword');
+    const eyeIcon = byId('memberPasswordEyeIcon');
+    if (!pwdEl || !eyeIcon) return;
+    if (pwdEl.type === 'password') {
+      pwdEl.type = 'text';
+      eyeIcon.textContent = 'visibility_off';
+    } else {
+      pwdEl.type = 'password';
+      eyeIcon.textContent = 'visibility';
+    }
+  });
+
+  // When password input is empty → auto show (type=text, icon=visibility); when has text keep current toggle state
+  byId('memberAccountPassword')?.addEventListener('input', e => {
+    const pwdEl = e.target;
+    const eyeIcon = byId('memberPasswordEyeIcon');
+    if (!pwdEl.value) {
+      // No text → revert to visible mode
+      pwdEl.type = 'text';
+      if (eyeIcon) eyeIcon.textContent = 'visibility';
+    } else if (pwdEl.type === 'text' && eyeIcon?.textContent === 'visibility') {
+      // First character typed while in default visible state → switch icon to indicate can hide
+      eyeIcon.textContent = 'visibility_off';
+    }
+  });
+
+  // Auto-mirror email → login username input while admin types
+  form?.querySelector('[name="email"]')?.addEventListener('input', e => {
+    const accEl = byId('memberAccountEmail');
+    if (accEl) accEl.value = e.target.value;
+  });
+
   form?.addEventListener('submit', e => {
     e.preventDefault();
     const fd = new FormData(form);
     const editId = String(fd.get('editId') || '').trim();
+    const accountPassword = String(fd.get('accountPassword') || '').trim();
+    const bloodGroupRaw = String(fd.get('bloodGroup') || '').trim();
+
+    // --- Blood group validation ---
+    const bgErr = byId('bloodGroupError');
+    const notice = byId('memberFormNotice');
+    const showNotice = (msg, isError = true) => {
+      if (!notice) return;
+      notice.textContent = msg;
+      notice.className = `text-sm mb-3 ${isError ? 'text-red-500 font-semibold' : 'text-green-600 font-semibold'}`;
+      notice.classList.remove('hidden');
+    };
+    if (bgErr) bgErr.classList.add('hidden');
+    if (bloodGroupRaw && !VALID_BLOOD_GROUPS.has(bloodGroupRaw)) {
+      if (bgErr) bgErr.classList.remove('hidden');
+      showNotice('Nhóm máu không hợp lệ! Vui lòng chọn đúng danh sách (A, B, O, AB, A+, B+, O+, AB+, A-, B-, O-, AB-).');
+      byId('memberBloodGroup')?.focus();
+      return;
+    }
+
     const payload = {
       fullName: String(fd.get('fullName') || ''),
       studentCode: String(fd.get('studentCode') || ''),
       email: String(fd.get('email') || ''),
       phone: String(fd.get('phone') || ''),
       cccd: String(fd.get('cccd') || ''),
-      bloodGroup: String(fd.get('bloodGroup') || 'Chưa biết')
+      bloodGroup: bloodGroupRaw || ''
     };
 
     if (editId) {
@@ -986,14 +1109,21 @@ function initAdminMembers() {
         const oldEmail = m.email;
         Object.assign(m, payload);
         const user = data.users.find(u => u.memberId === m.id);
-        if (user && oldEmail !== m.email) user.email = m.email;
+        if (user) {
+          if (oldEmail !== m.email) user.email = m.email;
+          if (accountPassword) user.password = accountPassword;
+        } else if (payload.email) {
+          // Create account if member doesn't have one yet
+          data.users.push({ id: id('u'), email: payload.email, password: accountPassword || '12345678', role: 'member', memberId: m.id });
+        }
       }
     } else {
-      data.members.push({
-        id: id('m'),
-        ...payload,
-        joinedAt: new Date().toISOString().slice(0, 10)
-      });
+      const newMember = { id: id('m'), ...payload, joinedAt: new Date().toISOString().slice(0, 10) };
+      data.members.push(newMember);
+      // Auto-create login account for new member
+      if (payload.email && !data.users.some(u => u.email === payload.email)) {
+        data.users.push({ id: id('u'), email: payload.email, password: accountPassword || '12345678', role: 'member', memberId: newMember.id });
+      }
     }
     save(data);
     resetEditor();
@@ -1289,12 +1419,44 @@ function initAdminAccounts() {
   bindLogout('adminLogout', '../');
   const form = byId('accountForm');
   const tbody = byId('accountsBody');
+  const avatarInput = byId('accountAvatar');
+  const avatarPreview = byId('avatarPreview');
+  const avatarPlaceholder = byId('avatarPlaceholder');
+  let pendingAvatarDataUrl = '';
+
+  // Handle avatar file selection — convert to base64 via FileReader
+  avatarInput?.addEventListener('change', () => {
+    const file = avatarInput.files?.[0];
+    if (!file) { pendingAvatarDataUrl = ''; return; }
+    if (file.size > 2 * 1024 * 1024) {
+      alert('Ảnh quá lớn. Vui lòng chọn ảnh dưới 2MB.');
+      avatarInput.value = '';
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      pendingAvatarDataUrl = ev.target.result;
+      if (avatarPreview) {
+        avatarPreview.src = pendingAvatarDataUrl;
+        avatarPreview.classList.remove('hidden');
+      }
+      if (avatarPlaceholder) avatarPlaceholder.classList.add('hidden');
+    };
+    reader.readAsDataURL(file);
+  });
 
   const render = () => {
     const users = data.users.filter(u => u.role === 'member');
     tbody.innerHTML = users.map(u => `
       <tr class="border-b border-outline-variant/20">
-        <td class="py-3">${u.email}</td>
+        <td class="py-3">
+          <div class="flex items-center gap-3">
+            ${u.avatar
+              ? `<img src="${u.avatar}" alt="" class="w-8 h-8 rounded-full object-cover flex-shrink-0" />`
+              : `<span class="material-symbols-outlined text-on-surface-variant" style="font-size:2rem;">account_circle</span>`}
+            <span>${u.email}</span>
+          </div>
+        </td>
         <td class="py-3">Member</td>
         <td class="py-3"><button data-reset="${u.id}" class="px-3 py-1 rounded-lg bg-surface-container-low text-xs font-bold">Cấp lại 12345678</button></td>
       </tr>
@@ -1324,9 +1486,14 @@ function initAdminAccounts() {
       alert('Tài khoản đã tồn tại.');
       return;
     }
-    data.users.push({ id: id('u'), email, password: password || '12345678', role: 'member', memberId: member.id });
+    const newUser = { id: id('u'), email, password: password || '12345678', role: 'member', memberId: member.id };
+    if (pendingAvatarDataUrl) newUser.avatar = pendingAvatarDataUrl;
+    data.users.push(newUser);
     save(data);
     form.reset();
+    pendingAvatarDataUrl = '';
+    if (avatarPreview) { avatarPreview.src = ''; avatarPreview.classList.add('hidden'); }
+    if (avatarPlaceholder) avatarPlaceholder.classList.remove('hidden');
     render();
   });
 
@@ -1811,6 +1978,7 @@ function start() {
   ensureDefaultMemberAccount();
   resetProgramsAndNotificationsToVietnameseRandom();
   ensureNotificationSchema();
+  ensureExtraSeedData();
   bindAuthPopupTriggers();
   bindPageTransitions();
   const page = document.body.getAttribute('data-page');
@@ -1825,7 +1993,7 @@ function start() {
   if (page === 'admin-programs') initAdminPrograms();
   if (page === 'admin-registrations') initAdminRegistrations();
   if (page === 'admin-notifications') initAdminNotifications();
-  if (page === 'admin-accounts') initAdminAccounts();
+
   if (page === 'member-dashboard') initMemberDashboard();
   if (page === 'member-profile') initMemberProfile();
   if (page === 'member-notifications') initMemberNotifications();
