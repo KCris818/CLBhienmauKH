@@ -683,6 +683,58 @@ function mountAuthModal(contentHtml) {
   wrapper.querySelector('.auth-modal-close')?.addEventListener('click', closeAuthModal);
 }
 
+function showConfirmDialog(title, message, onConfirm) {
+  const existing = document.getElementById('confirmPopupOverlay');
+  if (existing) existing.remove();
+  
+  const wrapper = document.createElement('div');
+  wrapper.id = 'confirmPopupOverlay';
+  wrapper.className = 'fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4 z-[9999] opacity-0 transition-opacity duration-200';
+  wrapper.innerHTML = `
+    <div class="bg-white rounded-3xl p-6 md:p-8 max-w-sm w-full shadow-2xl transform scale-95 transition-transform duration-200 border border-outline-variant/30 text-center relative overflow-hidden">
+      <div class="absolute top-0 left-0 w-full h-1.5 bg-error"></div>
+      <div class="mx-auto w-14 h-14 bg-error-container rounded-full flex items-center justify-center mb-5">
+        <span class="material-symbols-outlined text-error" style="font-size:28px;">delete_forever</span>
+      </div>
+      <h3 class="font-headline text-2xl font-extrabold text-on-surface mb-2">${title}</h3>
+      <p class="text-on-surface-variant text-sm mb-6 leading-relaxed">${message}</p>
+      <div class="flex gap-3 justify-center">
+        <button id="confirmCancelBtn" class="flex-1 py-3 px-4 rounded-xl bg-surface-container-low font-bold text-on-surface hover:bg-surface-container transition-colors">Hủy</button>
+        <button id="confirmOkBtn" class="flex-1 py-3 px-4 rounded-xl bg-error text-white font-bold hover:bg-error/90 transition-colors shadow-lg shadow-error/20">Xác nhận xóa</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(wrapper);
+  document.body.classList.add('modal-open');
+
+  // Trigger animation
+  requestAnimationFrame(() => {
+    wrapper.classList.remove('opacity-0');
+    wrapper.querySelector('div').classList.remove('scale-95');
+  });
+
+  const close = () => {
+    wrapper.classList.add('opacity-0');
+    wrapper.querySelector('div').classList.add('scale-95');
+    setTimeout(() => {
+      wrapper.remove();
+      if (!document.getElementById('authPopupOverlay')) {
+        document.body.classList.remove('modal-open');
+      }
+    }, 200);
+  };
+
+  wrapper.querySelector('#confirmCancelBtn').addEventListener('click', close);
+  wrapper.addEventListener('click', e => {
+    if (e.target === wrapper) close();
+  });
+
+  wrapper.querySelector('#confirmOkBtn').addEventListener('click', () => {
+    close();
+    if (onConfirm) onConfirm();
+  });
+}
+
 function openLoginModal() {
   mountAuthModal(`
     <div class="auth-login-shell">
@@ -946,6 +998,8 @@ function initAdminMembers() {
   const submitBtn = byId('memberSubmitBtn');
   const cancelBtn = byId('memberCancelEditBtn');
   const editIdInput = byId('memberEditId');
+  const searchInput = byId('memberSearchInput');
+  let searchQuery = '';
 
   const VALID_BLOOD_GROUPS = new Set(['A-','B-','O-','AB-','A+','B+','O+','AB+']);
 
@@ -970,7 +1024,13 @@ function initAdminMembers() {
   };
 
   const render = () => {
-    tbody.innerHTML = data.members.map(m => {
+    const filtered = data.members.filter(m => {
+      if (!searchQuery) return true;
+      const term = `${m.fullName || ''} ${m.studentCode || ''} ${m.phone || ''} ${m.cccd || ''}`.toLowerCase();
+      return term.includes(searchQuery);
+    });
+
+    tbody.innerHTML = filtered.map(m => {
       const hasAccount = data.users.some(u => u.memberId === m.id);
       return `
       <tr class="border-b border-outline-variant/20">
@@ -978,25 +1038,29 @@ function initAdminMembers() {
         <td class="py-3 px-2">${m.studentCode}</td>
         <td class="py-3 px-2">${m.email}</td>
         <td class="py-3 px-2">${m.phone}</td>
+        <td class="py-3 px-2">${m.cccd || '-'}</td>
         <td class="py-3 px-2">${m.bloodGroup || '-'}</td>
         <td class="py-3 px-2">${m.joinDate || '-'}</td>
         <td class="py-3 px-2">${m.department || '-'}</td>
         <td class="py-3 px-2">${m.major || '-'}</td>
         <td class="py-3 px-2">${m.course || '-'}</td>
-        <td class="py-3 px-2">
-          <span class="inline-flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-semibold ${hasAccount ? 'bg-tertiary-fixed text-tertiary' : 'bg-surface-container-low text-on-surface-variant'}">
-            <span class="material-symbols-outlined" style="font-size:0.95rem;">${hasAccount ? 'check_circle' : 'radio_button_unchecked'}</span>
-            ${hasAccount ? 'Có tài khoản' : 'Chưa có'}
+        <td class="py-3 px-2 text-center">
+          <span title="${hasAccount ? 'Có tài khoản' : 'Chưa có'}" class="inline-flex items-center justify-center w-8 h-8 rounded-lg ${hasAccount ? 'bg-tertiary-fixed text-tertiary' : 'bg-surface-container-low text-on-surface-variant'}">
+            <span class="material-symbols-outlined" style="font-size:1.1rem;">${hasAccount ? 'how_to_reg' : 'person_off'}</span>
           </span>
         </td>
         <td class="py-3 px-2">
-          <div class="flex gap-2 whitespace-nowrap">
-            <button data-edit-member="${m.id}" class="px-3 py-1 rounded-lg bg-primary/10 text-primary text-xs font-bold">Sửa</button>
-            <button data-del-member="${m.id}" class="px-3 py-1 rounded-lg bg-error-container text-error text-xs font-bold">Xóa</button>
+          <div class="flex gap-2 justify-center whitespace-nowrap">
+            <button data-edit-member="${m.id}" title="Sửa" class="flex items-center justify-center w-8 h-8 rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors">
+              <span class="material-symbols-outlined" style="font-size:1.1rem;">edit</span>
+            </button>
+            <button data-del-member="${m.id}" title="Xóa" class="flex items-center justify-center w-8 h-8 rounded-lg bg-error-container text-error hover:bg-error/20 transition-colors">
+              <span class="material-symbols-outlined" style="font-size:1.1rem;">delete</span>
+            </button>
           </div>
         </td>
       </tr>
-    `; }).join('') || '<tr><td colspan="11" class="py-4 text-on-surface-variant">Chưa có thành viên.</td></tr>';
+    `; }).join('') || '<tr><td colspan="12" class="py-6 text-center italic text-on-surface-variant">Không có dữ liệu thành viên phù hợp.</td></tr>';
 
     document.querySelectorAll('[data-edit-member]').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -1036,14 +1100,21 @@ function initAdminMembers() {
 
     document.querySelectorAll('[data-del-member]').forEach(btn => {
       btn.addEventListener('click', () => {
-        const memberId = btn.getAttribute('data-del-member');
-        data.members = data.members.filter(m => m.id !== memberId);
-        data.users = data.users.filter(u => u.memberId !== memberId);
-        save(data);
-        render();
+        showConfirmDialog('Xóa thành viên', 'Bạn có chắc chắn muốn xóa thành viên này? Dữ liệu và tài khoản liên quan sẽ bị xóa vĩnh viễn không thể khôi phục.', () => {
+          const memberId = btn.getAttribute('data-del-member');
+          data.members = data.members.filter(m => m.id !== memberId);
+          data.users = data.users.filter(u => u.memberId !== memberId);
+          save(data);
+          render();
+        });
       });
     });
   };
+
+  searchInput?.addEventListener('input', e => {
+    searchQuery = e.target.value.toLowerCase().trim();
+    render();
+  });
 
   cancelBtn?.addEventListener('click', resetEditor);
 

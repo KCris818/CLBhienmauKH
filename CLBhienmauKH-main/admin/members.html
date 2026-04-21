@@ -125,7 +125,15 @@
         </div>
       </form>
 
-      <div class="mt-6 zone-card bg-white rounded-2xl p-4 editorial-shadow fade-up delay-2 relative">
+      <div class="mt-6 flex flex-col md:flex-row md:items-center justify-between gap-4 fade-up delay-2">
+        <h3 class="font-headline text-2xl font-bold">Danh sách thành viên</h3>
+        <div class="relative w-full md:w-80">
+          <input type="text" id="memberSearchInput" class="w-full rounded-xl bg-white border-none editorial-shadow pl-10 pr-4 py-3 text-sm focus:ring-2 focus:ring-primary/50 transition-shadow" placeholder="Tìm tên, MSSV, SĐT, CCCD..." />
+          <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none" style="font-size: 1.2rem;">search</span>
+        </div>
+      </div>
+
+      <div class="mt-4 zone-card bg-white rounded-2xl p-4 editorial-shadow fade-up delay-2 relative">
         <span class="sticker sticker-sm sticker-bottom-right"><span
             class="material-symbols-outlined">id_card</span></span>
         <div class="members-table-scroll">
@@ -136,13 +144,14 @@
                 <th class="py-3 px-2">MSSV</th>
                 <th class="py-3 px-2">Email</th>
                 <th class="py-3 px-2">SĐT</th>
+                <th class="py-3 px-2">CCCD</th>
                 <th class="py-3 px-2">Nhóm máu</th>
                 <th class="py-3 px-2">Ngày tham gia</th>
                 <th class="py-3 px-2">Thuộc ban</th>
                 <th class="py-3 px-2">Ngành</th>
                 <th class="py-3 px-2">Khóa</th>
-                <th class="py-3 px-2">Tài khoản</th>
-                <th class="py-3 px-2">Thao tác</th>
+                <th class="py-3 px-2 text-center">Tài khoản</th>
+                <th class="py-3 px-2 text-center">Thao tác</th>
               </tr>
             </thead>
             <tbody id="membersBody"></tbody>
