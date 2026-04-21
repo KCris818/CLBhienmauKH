@@ -974,23 +974,29 @@ function initAdminMembers() {
       const hasAccount = data.users.some(u => u.memberId === m.id);
       return `
       <tr class="border-b border-outline-variant/20">
-        <td class="py-3">${m.fullName}</td>
-        <td class="py-3">${m.studentCode}</td>
-        <td class="py-3">${m.email}</td>
-        <td class="py-3">${m.phone}</td>
-        <td class="py-3">${m.bloodGroup || '-'}</td>
-        <td class="py-3">
+        <td class="py-3 px-2">${m.fullName}</td>
+        <td class="py-3 px-2">${m.studentCode}</td>
+        <td class="py-3 px-2">${m.email}</td>
+        <td class="py-3 px-2">${m.phone}</td>
+        <td class="py-3 px-2">${m.bloodGroup || '-'}</td>
+        <td class="py-3 px-2">${m.joinDate || '-'}</td>
+        <td class="py-3 px-2">${m.department || '-'}</td>
+        <td class="py-3 px-2">${m.major || '-'}</td>
+        <td class="py-3 px-2">${m.course || '-'}</td>
+        <td class="py-3 px-2">
           <span class="inline-flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-semibold ${hasAccount ? 'bg-tertiary-fixed text-tertiary' : 'bg-surface-container-low text-on-surface-variant'}">
             <span class="material-symbols-outlined" style="font-size:0.95rem;">${hasAccount ? 'check_circle' : 'radio_button_unchecked'}</span>
             ${hasAccount ? 'Có tài khoản' : 'Chưa có'}
           </span>
         </td>
-        <td class="py-3 flex gap-2">
-          <button data-edit-member="${m.id}" class="px-3 py-1 rounded-lg bg-primary/10 text-primary text-xs font-bold">Sửa</button>
-          <button data-del-member="${m.id}" class="px-3 py-1 rounded-lg bg-error-container text-error text-xs font-bold">Xóa</button>
+        <td class="py-3 px-2">
+          <div class="flex gap-2 whitespace-nowrap">
+            <button data-edit-member="${m.id}" class="px-3 py-1 rounded-lg bg-primary/10 text-primary text-xs font-bold">Sửa</button>
+            <button data-del-member="${m.id}" class="px-3 py-1 rounded-lg bg-error-container text-error text-xs font-bold">Xóa</button>
+          </div>
         </td>
       </tr>
-    `; }).join('') || '<tr><td colspan="7" class="py-4 text-on-surface-variant">Chưa có thành viên.</td></tr>';
+    `; }).join('') || '<tr><td colspan="11" class="py-4 text-on-surface-variant">Chưa có thành viên.</td></tr>';
 
     document.querySelectorAll('[data-edit-member]').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -1003,6 +1009,11 @@ function initAdminMembers() {
         form.phone.value = member.phone || '';
         form.cccd.value = member.cccd || '';
         form.bloodGroup.value = member.bloodGroup || '';
+        // Populate supplementary fields
+        form.joinDate.value = member.joinDate || '';
+        form.department.value = member.department || '';
+        form.major.value = member.major || '';
+        form.course.value = member.course || '';
         // Sync account email mirror
         const accEl = byId('memberAccountEmail');
         if (accEl) accEl.value = member.email || '';
@@ -1100,7 +1111,11 @@ function initAdminMembers() {
       email: String(fd.get('email') || ''),
       phone: String(fd.get('phone') || ''),
       cccd: String(fd.get('cccd') || ''),
-      bloodGroup: bloodGroupRaw || ''
+      bloodGroup: bloodGroupRaw || '',
+      joinDate: String(fd.get('joinDate') || ''),
+      department: String(fd.get('department') || ''),
+      major: String(fd.get('major') || ''),
+      course: String(fd.get('course') || '')
     };
 
     if (editId) {

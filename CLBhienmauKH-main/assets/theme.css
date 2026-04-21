@@ -586,6 +586,59 @@ body {
   max-width: 81rem !important;
 }
 
+/* ---------- Members table horizontal scroll ---------- */
+.members-table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 0 -4px;
+  padding: 0 4px 6px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(175, 16, 26, 0.25) transparent;
+}
+
+.members-table-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+
+.members-table-scroll::-webkit-scrollbar-track {
+  background: rgba(175, 16, 26, 0.06);
+  border-radius: 999px;
+}
+
+.members-table-scroll::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, rgba(175, 16, 26, 0.28), rgba(208, 23, 36, 0.22));
+  border-radius: 999px;
+}
+
+.members-table-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(175, 16, 26, 0.45);
+}
+
+.members-table {
+  min-width: 1000px;
+}
+
+.members-table th,
+.members-table td {
+  white-space: nowrap;
+}
+
+.members-table tbody tr {
+  transition: background 150ms ease;
+}
+
+.members-table tbody tr:hover {
+  background: rgba(254, 242, 242, 0.88);
+}
+
+.members-table tbody tr:nth-child(even) {
+  background: rgba(255, 245, 245, 0.55);
+}
+
+.members-table tbody tr:nth-child(even):hover {
+  background: rgba(254, 242, 242, 0.88);
+}
+
 /* Bỏ đổ bóng tại carousel track trên màn hình máy tính */
 @media (min-width: 1025px) {
   #homeProgramsTrack .home-program-card {
@@ -713,8 +766,8 @@ body {
     overflow-x: hidden;
   }
 
-  .admin-layout main table,
-  .member-layout main table {
+  .admin-layout main table:not(.members-table),
+  .member-layout main table:not(.members-table) {
     display: table;
     width: 100% !important;
     table-layout: fixed;

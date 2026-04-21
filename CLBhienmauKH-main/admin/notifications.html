@@ -1,46 +1,65 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin - Thông báo</title>
   <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
   <script src="../assets/tailwind-config.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
   <link rel="stylesheet" href="../assets/theme.css" />
 </head>
+
 <body class="bg-surface text-on-surface" data-page="admin-notifications">
   <div class="admin-layout">
     <div id="adminSidebar"></div>
 
     <main class="p-8 md:p-10 space-y-6">
       <section class="lookup-hero zone-card rounded-[2rem] p-7 md:p-10 fade-up relative overflow-hidden">
-        <span class="sticker sticker-sm sticker-top-right"><span class="material-symbols-outlined">campaign</span></span>
+        <span class="sticker sticker-sm sticker-top-right"><span
+            class="material-symbols-outlined">campaign</span></span>
         <h2 class="font-headline text-4xl font-extrabold">Quản lý thông báo</h2>
         <p class="text-on-surface-variant mt-3">Tạo và gửi thông báo đến thành viên một cách trực quan, nhanh chóng.</p>
       </section>
 
-      <form id="notifyForm" class="zone-card bg-white rounded-2xl p-6 editorial-shadow fade-up delay-1 relative overflow-hidden">
-        <span class="sticker sticker-sm sticker-top-left"><span class="material-symbols-outlined">edit_square</span></span>
+      <form id="notifyForm"
+        class="zone-card bg-white rounded-2xl p-6 editorial-shadow fade-up delay-1 relative overflow-hidden">
+        <span class="sticker sticker-sm sticker-top-left"><span
+            class="material-symbols-outlined">edit_square</span></span>
         <h3 class="font-headline text-2xl font-bold">Tạo thông báo mới</h3>
         <div class="grid gap-4 mt-4">
           <input type="hidden" name="editId" id="notifyEditId" />
           <input name="title" class="rounded-xl bg-surface-container-low border-none" placeholder="Tiêu đề" />
-          <textarea name="content" class="rounded-xl bg-surface-container-low border-none" rows="4" placeholder="Nội dung thông báo..."></textarea>
+          <textarea name="content" class="rounded-xl bg-surface-container-low border-none" rows="4"
+            placeholder="Nội dung thông báo..."></textarea>
           <div class="flex gap-3">
-            <button id="notifySubmitBtn" class="signature-gradient text-white px-6 py-3 rounded-xl font-bold">Lưu thông báo</button>
-            <button id="notifyCancelEditBtn" type="button" class="px-6 py-3 rounded-xl bg-surface-container-low font-bold hidden">Hủy sửa</button>
+            <button id="notifySubmitBtn" class="signature-gradient text-white px-6 py-3 rounded-xl font-bold">Lưu thông
+              báo</button>
+            <button id="notifyCancelEditBtn" type="button"
+              class="px-6 py-3 rounded-xl bg-surface-container-low font-bold hidden">Hủy sửa</button>
           </div>
         </div>
       </form>
 
       <section class="zone-card bg-white rounded-2xl p-6 editorial-shadow fade-up delay-2 relative overflow-hidden">
-        <span class="sticker sticker-sm sticker-bottom-right"><span class="material-symbols-outlined">notifications_active</span></span>
+        <span class="sticker sticker-sm sticker-bottom-right"><span
+            class="material-symbols-outlined">notifications_active</span></span>
         <h3 class="font-headline text-2xl font-bold mb-3">Danh sách thông báo</h3>
         <div class="overflow-x-auto">
           <table class="w-full text-sm">
-            <thead><tr class="text-left text-on-surface-variant border-b border-outline-variant/30"><th class="py-3">Tiêu đề</th><th class="py-3">Nội dung</th><th class="py-3">Ngày tạo</th><th class="py-3">Trạng thái</th><th class="py-3">Thao tác</th></tr></thead>
+            <thead>
+              <tr class="text-left text-on-surface-variant border-b border-outline-variant/30">
+                <th class="py-3">Tiêu đề</th>
+                <th class="py-3">Nội dung</th>
+                <th class="py-3">Ngày tạo</th>
+                <th class="py-3">Trạng thái</th>
+                <th class="py-3">Thao tác</th>
+              </tr>
+            </thead>
             <tbody id="notificationsBody"></tbody>
           </table>
         </div>
@@ -49,9 +68,5 @@
   </div>
   <script src="../assets/app.js"></script>
 </body>
+
 </html>
-
-
-
-
-

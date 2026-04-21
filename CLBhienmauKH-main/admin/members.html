@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin - Thành viên</title>
   <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
   <script src="../assets/tailwind-config.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
   <link rel="stylesheet" href="../assets/theme.css" />
 </head>
+
 <body class="bg-surface text-on-surface" data-page="admin-members">
   <div class="admin-layout">
     <div id="adminSidebar"></div>
@@ -20,16 +24,18 @@
         <p class="text-on-surface-variant mt-3">Thêm, cập nhật và quản lý hồ sơ thành viên CLB theo thời gian thực.</p>
       </section>
 
-      <form id="memberForm" class="mt-6 zone-card bg-white rounded-2xl p-6 editorial-shadow grid md:grid-cols-3 gap-3 fade-up delay-1 relative overflow-hidden">
-        <span class="sticker sticker-sm sticker-top-left"><span class="material-symbols-outlined">person_add</span></span>
+      <form id="memberForm"
+        class="mt-6 zone-card bg-white rounded-2xl p-6 editorial-shadow grid md:grid-cols-3 gap-3 fade-up delay-1 relative overflow-hidden">
+        <span class="sticker sticker-sm sticker-top-left"><span
+            class="material-symbols-outlined">person_add</span></span>
         <input type="hidden" name="editId" id="memberEditId" />
-        <input name="fullName" class="rounded-xl bg-surface-container-low border-none" placeholder="Họ và tên" />
-        <input name="studentCode" class="rounded-xl bg-surface-container-low border-none" placeholder="MSSV" />
-        <input name="email" class="rounded-xl bg-surface-container-low border-none" placeholder="Email" />
-        <input name="phone" class="rounded-xl bg-surface-container-low border-none" placeholder="Số điện thoại" />
-        <input name="cccd" class="rounded-xl bg-surface-container-low border-none" placeholder="CCCD" />
+        <input name="fullName" class="w-full rounded-xl bg-surface-container-low border-none" placeholder="Họ và tên" />
+        <input name="studentCode" class="w-full rounded-xl bg-surface-container-low border-none" placeholder="MSSV" />
+        <input name="email" class="w-full rounded-xl bg-surface-container-low border-none" placeholder="Email" />
+        <input name="phone" class="w-full rounded-xl bg-surface-container-low border-none" placeholder="Số điện thoại" />
+        <input name="cccd" class="w-full rounded-xl bg-surface-container-low border-none" placeholder="CCCD" />
         <div class="flex flex-col gap-1">
-          <select name="bloodGroup" id="memberBloodGroup" class="rounded-xl bg-surface-container-low border-none">
+          <select name="bloodGroup" id="memberBloodGroup" class="w-full rounded-xl bg-surface-container-low border-none">
             <option value="">-- Chọn nhóm máu --</option>
             <option value="A-">A-</option>
             <option value="B-">B-</option>
@@ -40,51 +46,112 @@
             <option value="O+">O+</option>
             <option value="AB+">AB+</option>
           </select>
-          <p id="bloodGroupError" class="text-xs text-red-500 hidden">Nhóm máu không hợp lệ. Vui lòng chọn đúng danh sách.</p>
+          <p id="bloodGroupError" class="text-xs text-red-500 hidden">Nhóm máu không hợp lệ. Vui lòng chọn đúng danh
+            sách.</p>
+        </div>
+        <!-- Thông tin bổ sung -->
+        <div class="md:col-span-3 border-t border-outline-variant/20 pt-4 mt-1">
+          <p
+            class="text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-3 flex items-center gap-1">
+            <span class="material-symbols-outlined" style="font-size:1rem;vertical-align:middle;">badge</span>
+            Thông tin bổ sung
+          </p>
+          <div class="grid md:grid-cols-4 gap-3">
+            <div class="flex flex-col gap-1">
+              <label for="memberJoinDate" class="text-xs font-semibold text-on-surface-variant">Ngày tham gia</label>
+              <input type="date" name="joinDate" id="memberJoinDate"
+                class="w-full rounded-xl bg-surface-container-low border-none" />
+            </div>
+            <div class="flex flex-col gap-1">
+              <label for="memberDepartment" class="text-xs font-semibold text-on-surface-variant">Thuộc ban</label>
+              <select name="department" id="memberDepartment" class="w-full rounded-xl bg-surface-container-low border-none">
+                <option value="">-- Chọn ban --</option>
+                <option value="Ban kỹ năng">Ban kỹ năng</option>
+                <option value="Ban truyền thông">Ban truyền thông</option>
+                <option value="Ban hậu cần">Ban hậu cần</option>
+              </select>
+            </div>
+            <div class="flex flex-col gap-1">
+              <label for="memberMajor" class="text-xs font-semibold text-on-surface-variant">Ngành học</label>
+              <input type="text" name="major" id="memberMajor" class="w-full rounded-xl bg-surface-container-low border-none"
+                placeholder="VD: Công nghệ thông tin" />
+            </div>
+            <div class="flex flex-col gap-1">
+              <label for="memberCourse" class="text-xs font-semibold text-on-surface-variant">Khóa học</label>
+              <input type="text" name="course" id="memberCourse" class="w-full rounded-xl bg-surface-container-low border-none"
+                placeholder="VD: K48" />
+            </div>
+          </div>
         </div>
         <!-- Tài khoản đăng nhập hệ thống -->
         <div class="md:col-span-3 border-t border-outline-variant/20 pt-4 mt-1">
-          <p class="text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-3 flex items-center gap-1">
+          <p
+            class="text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-3 flex items-center gap-1">
             <span class="material-symbols-outlined" style="font-size:1rem;vertical-align:middle;">key</span>
             Tài khoản đăng nhập hệ thống
           </p>
           <div class="grid md:grid-cols-2 gap-3">
             <div class="relative">
-              <input id="memberAccountEmail" name="accountEmail" class="rounded-xl bg-surface-container-low border-none w-full pr-10" placeholder="Tên đăng nhập (tự động từ Email)" readonly />
-              <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none" style="font-size:1.1rem;">person</span>
+              <input id="memberAccountEmail" name="accountEmail"
+                class="rounded-xl bg-surface-container-low border-none w-full pr-10"
+                placeholder="Tên đăng nhập (tự động từ Email)" readonly />
+              <span
+                class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none"
+                style="font-size:1.1rem;">person</span>
             </div>
             <div class="relative">
-              <input id="memberAccountPassword" name="accountPassword" type="text" class="rounded-xl bg-surface-container-low border-none w-full pr-10" placeholder="Mật khẩu (để trống = 12345678)" />
-              <button type="button" id="memberPasswordToggle" class="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant" tabindex="-1" aria-label="Hiện/Ẩn mật khẩu">
-                <span id="memberPasswordEyeIcon" class="material-symbols-outlined" style="font-size:1.1rem;">visibility</span>
+              <input id="memberAccountPassword" name="accountPassword" type="text"
+                class="rounded-xl bg-surface-container-low border-none w-full pr-10"
+                placeholder="Mật khẩu (để trống = 12345678)" />
+              <button type="button" id="memberPasswordToggle"
+                class="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant" tabindex="-1"
+                aria-label="Hiện/Ẩn mật khẩu">
+                <span id="memberPasswordEyeIcon" class="material-symbols-outlined"
+                  style="font-size:1.1rem;">visibility</span>
               </button>
             </div>
           </div>
-          <p class="text-xs text-on-surface-variant mt-2">Tài khoản được tạo tự động khi thêm thành viên. Mật khẩu hiện tại hiển thị khi sửa; điền mới để cấp lại.</p>
+          <p class="text-xs text-on-surface-variant mt-2">Tài khoản được tạo tự động khi thêm thành viên. Mật khẩu hiện
+            tại hiển thị khi sửa; điền mới để cấp lại.</p>
         </div>
         <div class="md:col-span-3">
           <p id="memberFormNotice" class="text-sm mb-3 hidden"></p>
           <div class="flex gap-3">
-            <button id="memberSubmitBtn" class="signature-gradient text-white px-5 py-3 rounded-xl font-bold">Thêm thành viên</button>
-            <button id="memberCancelEditBtn" type="button" class="px-5 py-3 rounded-xl bg-surface-container-low font-bold hidden">Hủy sửa</button>
+            <button id="memberSubmitBtn" class="signature-gradient text-white px-5 py-3 rounded-xl font-bold">Thêm thành
+              viên</button>
+            <button id="memberCancelEditBtn" type="button"
+              class="px-5 py-3 rounded-xl bg-surface-container-low font-bold hidden">Hủy sửa</button>
           </div>
         </div>
       </form>
 
-      <div class="mt-6 zone-card bg-white rounded-2xl p-4 editorial-shadow overflow-x-auto fade-up delay-2 relative overflow-hidden">
-        <span class="sticker sticker-sm sticker-bottom-right"><span class="material-symbols-outlined">id_card</span></span>
-        <table class="w-full text-sm">
-          <thead><tr class="text-left text-on-surface-variant border-b border-outline-variant/30"><th class="py-3">Họ tên</th><th class="py-3">MSSV</th><th class="py-3">Email</th><th class="py-3">SĐT</th><th class="py-3">Nhóm máu</th><th class="py-3">Tài khoản</th><th class="py-3">Thao tác</th></tr></thead>
-          <tbody id="membersBody"></tbody>
-        </table>
+      <div class="mt-6 zone-card bg-white rounded-2xl p-4 editorial-shadow fade-up delay-2 relative">
+        <span class="sticker sticker-sm sticker-bottom-right"><span
+            class="material-symbols-outlined">id_card</span></span>
+        <div class="members-table-scroll">
+          <table class="w-full text-sm members-table">
+            <thead>
+              <tr class="text-left text-on-surface-variant border-b border-outline-variant/30">
+                <th class="py-3 px-2">Họ tên</th>
+                <th class="py-3 px-2">MSSV</th>
+                <th class="py-3 px-2">Email</th>
+                <th class="py-3 px-2">SĐT</th>
+                <th class="py-3 px-2">Nhóm máu</th>
+                <th class="py-3 px-2">Ngày tham gia</th>
+                <th class="py-3 px-2">Thuộc ban</th>
+                <th class="py-3 px-2">Ngành</th>
+                <th class="py-3 px-2">Khóa</th>
+                <th class="py-3 px-2">Tài khoản</th>
+                <th class="py-3 px-2">Thao tác</th>
+              </tr>
+            </thead>
+            <tbody id="membersBody"></tbody>
+          </table>
+        </div>
       </div>
     </main>
   </div>
   <script src="../assets/app.js"></script>
 </body>
+
 </html>
-
-
-
-
-
