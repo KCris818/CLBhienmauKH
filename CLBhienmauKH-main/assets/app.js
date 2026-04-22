@@ -1284,6 +1284,8 @@ function initAdminPrograms() {
   const submitBtn = byId('programSubmitBtn');
   const cancelBtn = byId('programCancelEditBtn');
   const editIdInput = byId('programEditId');
+  const searchInput = byId('programSearchInput');
+  let searchQuery = '';
 
   const resetEditor = () => {
     if (editIdInput) editIdInput.value = '';
@@ -1293,7 +1295,12 @@ function initAdminPrograms() {
   };
 
   const render = () => {
-    tbody.innerHTML = data.programs.map(p => `
+    const filtered = data.programs.filter(p => {
+      if (!searchQuery) return true;
+      return (p.name || '').toLowerCase().includes(searchQuery);
+    });
+
+    tbody.innerHTML = filtered.map(p => `
       <tr class="border-b border-outline-variant/20">
         <td class="py-3">${p.name}</td>
         <td class="py-3">${p.date}</td>
@@ -1304,7 +1311,7 @@ function initAdminPrograms() {
           <button data-del-program="${p.id}" class="px-3 py-1 rounded-lg bg-error-container text-error text-xs font-bold">Xóa</button>
         </td>
       </tr>
-    `).join('') || '<tr><td colspan="5" class="py-4 text-on-surface-variant">Chưa có chương trình.</td></tr>';
+    `).join('') || '<tr><td colspan="5" class="py-4 text-center italic text-on-surface-variant">Không tìm thấy chương trình phù hợp.</td></tr>';
 
     document.querySelectorAll('[data-edit-program]').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -1332,6 +1339,11 @@ function initAdminPrograms() {
       });
     });
   };
+
+  searchInput?.addEventListener('input', e => {
+    searchQuery = e.target.value.toLowerCase().trim();
+    render();
+  });
 
   cancelBtn?.addEventListener('click', resetEditor);
 
