@@ -14,7 +14,7 @@
 - `admin/members.html` - Quản lý thành viên
 - `admin/programs.html` - Quản lý chương trình
 - `admin/registrations.html` - Duyệt đăng ký hiến máu
-- `admin/notifications.html` - Tạo/gửi thông báo
+- `admin/notifications.html` - Tạo/gửi thông báo 
 - `admin/accounts.html` - Tạo tài khoản + cấp lại mật khẩu
 
 ### Member

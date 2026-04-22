@@ -1152,6 +1152,51 @@ function initAdminMembers() {
     if (accEl) accEl.value = e.target.value;
   });
 
+  // --- Validation dialog for incomplete member form ---
+  function showValidationDialog(message) {
+    const existing = document.getElementById('validationDialogOverlay');
+    if (existing) existing.remove();
+
+    const overlay = document.createElement('div');
+    overlay.id = 'validationDialogOverlay';
+    overlay.className = 'fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4 z-[9999] opacity-0 transition-opacity duration-200';
+    overlay.innerHTML = `
+      <div class="bg-white rounded-3xl p-6 md:p-8 max-w-sm w-full shadow-2xl transform scale-95 transition-transform duration-200 border border-outline-variant/30 text-center relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-1.5" style="background:linear-gradient(90deg,#f59e0b,#ef4444);"></div>
+        <div class="mx-auto w-14 h-14 rounded-full flex items-center justify-center mb-5" style="background:#fef3c7;">
+          <span class="material-symbols-outlined" style="font-size:28px;color:#f59e0b;">warning</span>
+        </div>
+        <h3 class="font-headline text-2xl font-extrabold text-on-surface mb-2">Thông tin chưa hợp lệ</h3>
+        <p class="text-on-surface-variant text-sm mb-6 leading-relaxed">${message}</p>
+        <button id="validationDialogCloseBtn" class="w-full py-3 px-4 rounded-xl font-bold text-white shadow-lg transition-colors" style="background:linear-gradient(135deg,#f59e0b,#ef4444);">Đã hiểu</button>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+    document.body.classList.add('modal-open');
+
+    // Trigger entrance animation
+    requestAnimationFrame(() => {
+      overlay.classList.remove('opacity-0');
+      overlay.querySelector('div').classList.remove('scale-95');
+    });
+
+    const closeDialog = () => {
+      overlay.classList.add('opacity-0');
+      overlay.querySelector('div').classList.add('scale-95');
+      setTimeout(() => {
+        overlay.remove();
+        if (!document.getElementById('authPopupOverlay') && !document.getElementById('confirmPopupOverlay')) {
+          document.body.classList.remove('modal-open');
+        }
+      }, 200);
+    };
+
+    overlay.querySelector('#validationDialogCloseBtn').addEventListener('click', closeDialog);
+    overlay.addEventListener('click', e => {
+      if (e.target === overlay) closeDialog();
+    });
+  }
+
   form?.addEventListener('submit', e => {
     e.preventDefault();
     const fd = new FormData(form);
@@ -1177,17 +1222,27 @@ function initAdminMembers() {
     }
 
     const payload = {
-      fullName: String(fd.get('fullName') || ''),
-      studentCode: String(fd.get('studentCode') || ''),
-      email: String(fd.get('email') || ''),
-      phone: String(fd.get('phone') || ''),
-      cccd: String(fd.get('cccd') || ''),
+      fullName: String(fd.get('fullName') || '').trim(),
+      studentCode: String(fd.get('studentCode') || '').trim(),
+      email: String(fd.get('email') || '').trim(),
+      phone: String(fd.get('phone') || '').trim(),
+      cccd: String(fd.get('cccd') || '').trim(),
       bloodGroup: bloodGroupRaw || '',
-      joinDate: String(fd.get('joinDate') || ''),
-      department: String(fd.get('department') || ''),
-      major: String(fd.get('major') || ''),
-      course: String(fd.get('course') || '')
+      joinDate: String(fd.get('joinDate') || '').trim(),
+      department: String(fd.get('department') || '').trim(),
+      major: String(fd.get('major') || '').trim(),
+      course: String(fd.get('course') || '').trim()
     };
+
+    // --- Full field validation: all fields must be filled ---
+    const allFieldsFilled = payload.fullName && payload.studentCode && payload.email &&
+      payload.phone && payload.cccd && payload.bloodGroup &&
+      payload.joinDate && payload.department && payload.major && payload.course;
+
+    if (!allFieldsFilled) {
+      showValidationDialog('Thông tin của bạn điền chưa hợp lệ');
+      return;
+    }
 
     if (editId) {
       const m = data.members.find(x => x.id === editId);
